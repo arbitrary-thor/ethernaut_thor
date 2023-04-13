@@ -30,7 +30,7 @@ describe("Fallback", function () {
             // call contribute() and ensure our contribution is updated
             level1.connect(otherAccount).contribute({value: ethers.utils.parseEther(".0001")});
             const contribution = await level1.connect(otherAccount).getContribution()
-            await expect(contribution == ethers.utils.parseEther(".0001"));
+            expect(contribution == ethers.utils.parseEther(".0001"));
 
             // send a transaction with some eth which should make us the owner
             tx = { 
@@ -39,12 +39,12 @@ describe("Fallback", function () {
             }
             await otherAccount.sendTransaction(tx);
             const new_owner = await level1.owner();
-            await expect(new_owner == otherAccount.address)
+            expect(new_owner == otherAccount.address)
 
             // withdraw the balance and ensure the balance is 0
             level1.connect(otherAccount).withdraw();
             balance = await ethers.provider.getBalance(level1.address)
-            await expect(balance == 0)
+            expect(balance == 0)
         })
     });
 });

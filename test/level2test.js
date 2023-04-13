@@ -15,7 +15,6 @@ describe("Fallback", function () {
           `Level2 deployed at address ${level2.address}`
         );
 
-        console.log(ethers.provider.blockNumber);
         return {level2, owner, otherAccount};
     }
 
@@ -29,7 +28,7 @@ describe("Fallback", function () {
             // call Fal1out which should make us the owner
             level2.connect(otherAccount).Fal1out();
             const new_owner = await level2.owner();
-            await expect(new_owner == otherAccount.address)
+            expect(new_owner == otherAccount.address)
         })
     });
 });
