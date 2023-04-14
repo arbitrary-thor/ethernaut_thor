@@ -24,9 +24,9 @@ describe("Fallback", function () {
         it("Should solve level8", async function() {
             const {level8, owner, otherAccount} = await loadFixture(deployFallback);
             password = await ethers.provider.getStorageAt(level8.address, 1);
-            await level8.connect(otherAccount).unlock(password)
-            const locked = await level8.connect(owner).locked()
-            expect(locked == false)
+            await level8.connect(otherAccount).unlock(password);
+            const locked = await level8.connect(owner).locked();
+            expect(locked).equals(false);
         })
     });
 });

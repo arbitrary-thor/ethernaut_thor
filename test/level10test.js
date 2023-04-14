@@ -30,11 +30,11 @@ describe("Fallback", function () {
             await owner.sendTransaction(tx);
             // Ensure the balance is 100 
             let balance = await ethers.provider.getBalance(level10.address);
-            expect (balance == ethers.utils.parseEther("100"));
+            expect (balance).equals(ethers.utils.parseEther("100"));
             // Drain the contract using our helper
             await level10Helper.connect(otherAccount).draino({value: ethers.utils.parseEther("1")});
             balance = await ethers.provider.getBalance(level10.address)
-            expect (balance == 0);
+            expect (balance).equals(0);
         })
     });
 });

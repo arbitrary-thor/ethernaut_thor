@@ -41,7 +41,8 @@ describe("Fallback", function () {
             const key = data.slice(0,34);
             await level12.connect(otherAccount).unlock(ethers.utils.solidityPack(["bytes16"], [key]));
             locked = await level12.connect(otherAccount).locked();
-            expect(locked == false)
+            expect(locked).equals(false);
+    
         })
     });
 });

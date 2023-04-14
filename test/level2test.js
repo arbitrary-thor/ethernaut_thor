@@ -26,9 +26,9 @@ describe("Fallback", function () {
             const {level2, owner, otherAccount} = await loadFixture(deployFallback);
             // call contribute() and ensure our contribution is updated
             // call Fal1out which should make us the owner
-            level2.connect(otherAccount).Fal1out();
+            await level2.connect(otherAccount).Fal1out();
             const new_owner = await level2.owner();
-            expect(new_owner == otherAccount.address)
+            expect(new_owner).equals(otherAccount.address)
         })
     });
 });

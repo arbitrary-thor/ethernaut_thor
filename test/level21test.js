@@ -29,10 +29,10 @@ describe("Fallback", function () {
         it("Should solve level21", async function() {
             const {level21, level21Helper, owner, otherAccount} = await loadFixture(deployFallback);
             await level21Helper.connect(otherAccount).buy(level21.address);
-            const price = level21.connect(otherAccount).price;
-            const isSold = level21.connect(otherAccount).isSold;
-            expect (price < 100);
-            expect (isSold == true);
+            const price = await level21.connect(otherAccount).price();
+            const isSold = await level21.connect(otherAccount).isSold();
+            expect(price).lessThan(100);
+            expect(isSold).equals(true);
         })
     });
 });

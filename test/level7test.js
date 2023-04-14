@@ -31,13 +31,14 @@ describe("Fallback", function () {
             // send a transaction with some eth
             tx = { 
                 to: level7Helper.address,
-                value: ethers.utils.parseEther(".01")
+                value: ethers.utils.parseEther(".01"),
+                gasLimit: 300000
             }
             await otherAccount.sendTransaction(tx);
             // selfdestruct the helper contract
             await level7Helper.connect(otherAccount).destroy()
             const balance = await ethers.provider.getBalance(level7.address)
-            expect(balance > 0);
+            expect(balance).gt(0);
         })
     });
 });

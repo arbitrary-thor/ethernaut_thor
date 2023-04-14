@@ -29,15 +29,15 @@ describe("Fallback", function () {
             let FACTOR = ethers.BigNumber.from("57896044618658097711785492504343953926634992332820282019728792003956564819968");
 
             for (let i = 0; i<10; i++) {
-                const blockNum = await ethers.provider.getBlockNumber() - 1;
-                const blockHash = await ethers.provider.getBlock(blockNum).blockHash;
-                const flip = blockHash / FACTOR;
+                const blockNum = await ethers.provider.getBlockNumber();
+                const block = await ethers.provider.getBlock(blockNum);
+                const flip = Math.floor(block.hash / FACTOR);
                 const side = flip == 1 ? true : false;
-                expect(level3.connect(otherAccount).flip(side) == true);
+                const result = await level3.connect(otherAccount).flip(side);
                 // Calculate the correct flip and send a guess 10x
             }
             const wins = await level3.consecutiveWins();
-            expect(wins == 10);
+            expect(wins).equals(10);
         })
     });
 });

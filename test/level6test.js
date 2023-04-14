@@ -32,13 +32,16 @@ describe("Fallback", function () {
             let iface = new ethers.utils.Interface(ABI);
             tx = { 
                 to: level6.address,
-                data: iface.encodeFunctionData("pwn")
+                data: iface.encodeFunctionData("pwn"),
+                gasLimit: 300000
             }
             const originalOwner = await level6.owner();
-            expect(originalOwner == owner.address)
+            console.log(originalOwner);
+            expect(originalOwner).equals(owner.address);
             await otherAccount.sendTransaction(tx);
             const newOwner = await level6.owner();
-            expect(newOwner == otherAccount.address)
+            console.log(newOwner);
+            expect(newOwner).equals(otherAccount.address);
         })
     });
 });

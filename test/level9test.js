@@ -48,7 +48,7 @@ describe("Fallback", function () {
                 ;
             }
             king = await level9.connect(otherAccount)._king();
-            expect(king == level9Helper.address)
+            expect(king).equals(level9Helper.address)
         })
     });
 });

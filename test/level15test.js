@@ -32,10 +32,10 @@ describe("Fallback", function () {
             // Call Level15Helper.drain
             // Should transfer all the tokens from owner to level15Helper
             const total = ethers.utils.parseEther("1000000");
-            level15.connect(owner).approve(level15Helper.address, total);
-            level15Helper.connect(owner).drain(total);
-            const balance = level15.connect(owner).balanceOf(owner.address);
-            expect (balance == 0)
+            await level15.connect(owner).approve(level15Helper.address, total);
+            await level15Helper.connect(owner).drain(total, owner.address);
+            const balance = await level15.connect(owner).balanceOf(owner.address);
+            expect (balance).equals(0);
         })
     });
 });

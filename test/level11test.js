@@ -28,9 +28,9 @@ describe("Fallback", function () {
     describe("Solve", function() {
         it("Should solve level11", async function() {
             const {level11, level11Helper, owner, otherAccount} = await loadFixture(deployFallback);
-            level11Helper.connect(otherAccount).changeFloor(10);
-            const top = level11.connect(otherAccount).top();
-            expect(top == true);
+            await level11Helper.connect(otherAccount).changeFloor(10);
+            const top = await level11.connect(otherAccount).top();
+            expect(top).equals(true);
         })
     });
 });

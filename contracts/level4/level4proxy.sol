@@ -2,15 +2,15 @@
 pragma solidity ^0.8.0;
 
 contract TelephoneCaller {
-    Telephone telephoneContract;
+    ProxyTelephone telephoneContract;
     constructor(address telephoneAddr) {
-        telephoneContract = Telephone(telephoneAddr);
+        telephoneContract = ProxyTelephone(telephoneAddr);
     }
     function changeOwner(address _owner) public {
         return telephoneContract.changeOwner(_owner);
     }
 }
-abstract contract Telephone {
+abstract contract ProxyTelephone {
 
   address public owner;
 

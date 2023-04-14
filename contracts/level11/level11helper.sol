@@ -10,7 +10,7 @@ contract MyBuilding {
 
     function isLastFloor(uint _floor) public view returns (bool){
         uint floor = elevator.floor();
-        if (floor == _floor) {
+        if (floor != _floor) {
             return false;
         }
         return true;

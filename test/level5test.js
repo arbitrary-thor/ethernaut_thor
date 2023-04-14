@@ -29,7 +29,7 @@ describe("Fallback", function () {
             await level5.connect(owner).transfer(otherAccount.address, 21);
             const balance = await level5.connect(owner).balanceOf(owner.address);
             console.log(balance);
-            expect(balance > 20);
+            expect(balance).gt(20);
         })
     });
 });

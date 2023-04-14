@@ -23,6 +23,7 @@ module.exports = {
       url: API_URL,
     },
     hardhat: {
+      gas: 30000000,
       forking: {
         url: `https://eth-mainnet.g.alchemy.com/v2/${API_KEY}`,
         blockNumber: 17000408

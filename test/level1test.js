@@ -28,9 +28,9 @@ describe("Fallback", function () {
         it("Should solve level1", async function() {
             const {level1, owner, otherAccount} = await loadFixture(deployFallback);
             // call contribute() and ensure our contribution is updated
-            level1.connect(otherAccount).contribute({value: ethers.utils.parseEther(".0001")});
+            await level1.connect(otherAccount).contribute({value: ethers.utils.parseEther(".0001")});
             const contribution = await level1.connect(otherAccount).getContribution()
-            expect(contribution == ethers.utils.parseEther(".0001"));
+            expect(contribution).equals(ethers.utils.parseEther(".0001"));
 
             // send a transaction with some eth which should make us the owner
             tx = { 
@@ -39,12 +39,12 @@ describe("Fallback", function () {
             }
             await otherAccount.sendTransaction(tx);
             const new_owner = await level1.owner();
-            expect(new_owner == otherAccount.address)
+            expect(new_owner).equals(otherAccount.address)
 
             // withdraw the balance and ensure the balance is 0
-            level1.connect(otherAccount).withdraw();
+            await level1.connect(otherAccount).withdraw();
             balance = await ethers.provider.getBalance(level1.address)
-            expect(balance == 0)
+            expect(balance).equals(0);
         })
     });
 });
