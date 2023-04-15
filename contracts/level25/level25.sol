@@ -5,6 +5,7 @@ pragma solidity <0.7.0;
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/proxy/Initializable.sol";
 
+import "hardhat/console.sol";
 contract Motorbike {
     // keccak-256 hash of "eip1967.proxy.implementation" subtracted by 1
     bytes32 internal constant _IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
@@ -15,6 +16,8 @@ contract Motorbike {
     
     // Initializes the upgradeable proxy with an initial implementation specified by `_logic`.
     constructor(address _logic) public {
+        console.log("constructor");
+        console.logAddress(msg.sender);
         require(Address.isContract(_logic), "ERC1967: new implementation is not a contract");
         _getAddressSlot(_IMPLEMENTATION_SLOT).value = _logic;
         (bool success,) = _logic.delegatecall(
@@ -25,6 +28,8 @@ contract Motorbike {
 
     // Delegates the current call to `implementation`.
     function _delegate(address implementation) internal virtual {
+        console.log("_delegate");
+        console.logAddress(msg.sender);
         // solhint-disable-next-line no-inline-assembly
         assembly {
             calldatacopy(0, 0, calldatasize())
@@ -39,6 +44,8 @@ contract Motorbike {
     // Fallback function that delegates calls to the address returned by `_implementation()`. 
     // Will run if no other function in the contract matches the call data
     fallback () external payable virtual {
+        console.log("fallback");
+        console.logAddress(msg.sender);
         _delegate(_getAddressSlot(_IMPLEMENTATION_SLOT).value);
     }
 
@@ -62,6 +69,8 @@ contract Engine is Initializable {
     }
 
     function initialize() external initializer {
+        console.log("initialize");
+        console.logAddress(msg.sender);
         horsePower = 1000;
         upgrader = msg.sender;
     }
@@ -69,6 +78,8 @@ contract Engine is Initializable {
     // Upgrade the implementation of the proxy to `newImplementation`
     // subsequently execute the function call
     function upgradeToAndCall(address newImplementation, bytes memory data) external payable {
+        console.log("upgradeToAndCall");
+        console.logAddress(msg.sender);
         _authorizeUpgrade();
         _upgradeToAndCall(newImplementation, data);
     }
@@ -85,6 +96,8 @@ contract Engine is Initializable {
     ) internal {
         // Initial upgrade and setup call
         _setImplementation(newImplementation);
+        console.logAddress(newImplementation);
+        console.logBytes(data);
         if (data.length > 0) {
             (bool success,) = newImplementation.delegatecall(data);
             require(success, "Call failed");
